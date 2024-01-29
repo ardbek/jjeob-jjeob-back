@@ -26,28 +26,12 @@ public class ApiController {
 
     @Value("${LOCALDATA_API_KEY}")
     private String LOCALDATA_API_KEY;
+    private final int PAGE_SIZE = 500;
 
     @RequestMapping(value = "/getApiCall.do", method = {RequestMethod.GET, RequestMethod.POST})
     public void getSampleApi(HttpServletRequest req, HttpServletResponse res, ApiRequest apiReq) throws Exception {
 
-        String apiUrl = "http://www.localdata.go.kr/platform/rest/TO0/openDataApi?authKey=" + LOCALDATA_API_KEY + "&resultType=json";
-
-        if (apiReq.getLocalCode() != null) {
-            apiUrl += "&localCode=" + apiReq.getLocalCode();
-        }
-        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
-            apiUrl += "&bgnYmd=" + apiReq.getBgnYmd() + "&endYmd=" + apiReq.getEndYmd();
-        }
-        if (apiReq.getState() != null) {
-            apiUrl += "&state=" + apiReq.getState();
-        }
-
-        // 음식점 코드
-        apiUrl += "&opnSvcId=07_24_04_P";
-        // 개발 : 최대 500건 / 운영 최대 10,000건
-        int pageSize = 500;
-        apiUrl += "&pageSize="+pageSize;
-
+        String apiUrl = getApiURL(apiReq);
 
         URL url = new URL(apiUrl);
         BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
@@ -75,7 +59,7 @@ public class ApiController {
         JsonObject paging = header.getAsJsonObject("paging");
         int totalCount = paging.get("totalCount").getAsInt();
 
-        int totalPage = getTotalPage(totalCount, pageSize);
+        int totalPage = getTotalPage(totalCount);
 
         log.info("totalPage : {}",totalPage);
 
@@ -111,15 +95,40 @@ public class ApiController {
     /**
      * 총 페이지 수
      * @param totalCount
-     * @param pageSize
      * @return
      */
-    public int getTotalPage(int totalCount, int pageSize) {
-        if (totalCount % pageSize != 0) {
-            return (totalCount / pageSize) + 1;
+    private int getTotalPage(int totalCount) {
+        if (totalCount % PAGE_SIZE != 0) {
+            return (totalCount / PAGE_SIZE) + 1;
         } else {
-            return totalCount / pageSize;
+            return totalCount / PAGE_SIZE;
         }
+    }
+
+    /**
+     * 요청 url 생성
+     * @param apiReq
+     * @return
+     */
+    private String getApiURL(ApiRequest apiReq) {
+
+        String url = "http://www.localdata.go.kr/platform/rest/TO0/openDataApi?authKey=" + LOCALDATA_API_KEY;
+
+        url += "&resultType=json"; // 반환 타입 default : xml
+        url += "&opnSvcId=07_24_04_P";// 음식점 코드
+        url += "&pageSize="+PAGE_SIZE;// 개발 : 최대 500건 / 운영 최대 10,000건
+
+        if (apiReq.getLocalCode() != null) {
+            url += "&localCode=" + apiReq.getLocalCode();
+        }
+        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
+            url += "&bgnYmd=" + apiReq.getBgnYmd() + "&endYmd=" + apiReq.getEndYmd();
+        }
+        if (apiReq.getState() != null) {
+            url += "&state=" + apiReq.getState();
+        }
+
+        return url;
     }
 
 }
