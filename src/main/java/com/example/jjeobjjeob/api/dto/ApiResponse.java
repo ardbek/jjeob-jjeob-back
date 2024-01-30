@@ -1,11 +1,13 @@
 package com.example.jjeobjjeob.api.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 public class ApiResponse {
     public String rowNum; // 번호
@@ -34,7 +36,7 @@ public class ApiResponse {
     public String x; // 좌표정보(X)
     public String y; // 좌표정보(Y)
     public String lastModTs; // 최종수정일자
-    public String updateNm; // 업태 구분명
+//    public String updateNm; // 업태 구분명
     public String siteTel; // 전화번호
 
 }
