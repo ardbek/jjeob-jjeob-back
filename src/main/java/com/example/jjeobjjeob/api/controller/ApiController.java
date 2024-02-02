@@ -20,10 +20,6 @@ public class ApiController {
 
     private final ApiService apiService;
 
-    @Value("${LOCALDATA_API_KEY}")
-    private String LOCALDATA_API_KEY;
-    private final int PAGE_SIZE = 500;
-
     public ApiController(ApiService apiService) {
         this.apiService = apiService;
     }
