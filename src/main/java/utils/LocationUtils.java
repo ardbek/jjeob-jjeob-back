@@ -1,7 +1,9 @@
 package utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.locationtech.proj4j.*;
 
+@Slf4j
 public class LocationUtils {
 
     private final String EPSG_5174_PARAMS = "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43";
@@ -30,6 +32,7 @@ public class LocationUtils {
         ProjCoordinate wgs84Coord = new ProjCoordinate();
 
         transform.transform(tmCoord, wgs84Coord);
+        log.info("LocationUtils :: {},{}",wgs84Coord.x, wgs84Coord.y);
         return wgs84Coord;
     }
 
