@@ -106,7 +106,7 @@ public class ApiService {
      * @throws Exception
      */
     public List<ApiResponse> fetchAndUpdateData(ApiRequest apiReq) throws Exception {
-        String apiUrl = getApiURL(apiReq); // API URL 생성 로직 필요
+        String apiUrl = getApiURL(apiReq);
         String data = getData(apiUrl);
         int totalPage = getTotalPage(data);
 
