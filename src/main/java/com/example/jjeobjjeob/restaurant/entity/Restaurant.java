@@ -11,33 +11,43 @@ import lombok.Setter;
 @Setter
 public class Restaurant {
 
-    // PK
     @Id @Column
-    private String id;
-
-    // 식당 이름
+    private String id; // PK
     @Column
-    private String rst_name;
-
-    // (구)주소
+    private String opnSvcNm; // 개방 서비스 명 (ex:일반 음식점)
     @Column
-    private String location;
-
-    // 도로명 주소
+    private String bussSttus; // 영업 상태 (폐업, 영업, 휴업)
     @Column
-    private String location2;
-
-    // 위도
+    private String closureDt; // 폐업 일자
     @Column
-    private String latitude;
-
-    // 경도
+    private String oldPostCode; // 우편번호(구 주소)
     @Column
-    private String longitude;
-
-    // 업태
+    private String oldAddr; // 소재지 전체 주소 (구 주소)
     @Column
-    private String type;
+    private String newPostCode; // 도로명 우편번호
+    @Column
+    private String newAddr; // 도로명 전체 주소
+    @Column
+    private String rstntNm; // 사업장 명 (음식점 명)
+    @Column
+    private String apiUpdateDt; // 데이터 갱신 일자 (api로 받아오는 값)
+    @Column
+    private String bussType; // 업태 구분 (한식, 중식, 기타)
+    @Column
+    private String epsg5174X; // EPSG:5174 - X 좌표
+    @Column
+    private String epsg5174y; // EPSG:5174 - Y 좌표
+    @Column
+    private String longitude; // WGS84 - X 좌표 (경도)
+    @Column
+    private String latitude; // WGS84 - Y 좌표(위도)
+
+    // 공통
+    // 최초 등록일
+    // 최초 등록자 (ip 또는 id -> 하나만 받을지 둘 다 받을지)
+    // 최종 수정일
+    // 최종 수정자 (ip 또는 id)
+
 
 
 
