@@ -1,18 +1,28 @@
 package com.example.jjeobjjeob.restaurant.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.example.jjeobjjeob.common.Entity.BaseEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
+@SequenceGenerator(
+        name = "RSTNT_SEQ_GENERATOR",
+        sequenceName = "RSTNT_SEQ"
+)
+
 @Getter
 @Setter
-public class Restaurant {
+public class Restaurant extends BaseEntity {
 
-    @Id @Column
-    private String id; // PK
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "RSTNT_SEQ_GENERATOR"
+    )
+    private Long id; // PK
     @Column
     private String opnSvcNm; // 개방 서비스 명 (ex:일반 음식점)
     @Column
@@ -30,7 +40,7 @@ public class Restaurant {
     @Column
     private String rstntNm; // 사업장 명 (음식점 명)
     @Column
-    private String apiUpdateDt; // 데이터 갱신 일자 (api로 받아오는 값)
+    private LocalDateTime apiUpdateDt; // 데이터 갱신 일자 (api로 받아오는 값)
     @Column
     private String bussType; // 업태 구분 (한식, 중식, 기타)
     @Column
@@ -47,8 +57,6 @@ public class Restaurant {
     // 최초 등록자 (ip 또는 id -> 하나만 받을지 둘 다 받을지)
     // 최종 수정일
     // 최종 수정자 (ip 또는 id)
-
-
 
 
 }
