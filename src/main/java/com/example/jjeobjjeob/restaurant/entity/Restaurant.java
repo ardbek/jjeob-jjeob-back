@@ -24,6 +24,8 @@ public class Restaurant extends BaseEntity {
     )
     private Long id; // PK
     @Column
+    private String managementNum; // api pk
+    @Column
     private String opnSvcNm; // 개방 서비스 명 (ex:일반 음식점)
     @Column
     private String bussSttus; // 영업 상태 (폐업, 영업, 휴업)
@@ -51,12 +53,5 @@ public class Restaurant extends BaseEntity {
     private String longitude; // WGS84 - X 좌표 (경도)
     @Column
     private String latitude; // WGS84 - Y 좌표(위도)
-
-    // 공통
-    // 최초 등록일
-    // 최초 등록자 (ip 또는 id -> 하나만 받을지 둘 다 받을지)
-    // 최종 수정일
-    // 최종 수정자 (ip 또는 id)
-
 
 }
