@@ -25,7 +25,6 @@ public class ApiService {
     @Value("${LOCALDATA_API_KEY}")
     private String LOCALDATA_API_KEY;
     private final int PAGE_SIZE = 500;
-
     /**
      * Api 데이터 호출
      *
@@ -65,8 +64,7 @@ public class ApiService {
                 .get(0).getAsJsonObject()
                 .getAsJsonArray("row");
 
-        Type listType = new TypeToken<List<ApiResponse>>() {
-        }.getType();
+        Type listType = new TypeToken<List<ApiResponse>>() {}.getType();
         List<ApiResponse> apiResponses = gson.fromJson(rows, listType);
 
         return apiResponses;
@@ -158,4 +156,6 @@ public class ApiService {
 
         return url;
     }
+
+
 }
