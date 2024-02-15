@@ -1,1 +1,5 @@
 rootProject.name = 'jjeob-jjeob'
+include 'jjeob-batch'
+include 'jjeob-core'
+include 'jjeob-api'
+

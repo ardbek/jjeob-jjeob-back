@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.fmap'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    enabled = true
+}
+
+//bootJar {
+//    enabled = false
+//}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
