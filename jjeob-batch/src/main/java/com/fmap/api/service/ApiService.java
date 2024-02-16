@@ -2,7 +2,7 @@ package com.fmap.api.service;
 
 import com.fmap.api.dto.ApiRequest;
 import com.fmap.api.dto.ApiResponse;
-import com.example.jjeobjjeob.restaurant.repository.RestaurantRepository;
+import com.fmap.restaurant.repository.RestaurantRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

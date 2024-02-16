@@ -1,6 +1,6 @@
 package com.fmap.restaurant.entity;
 
-import com.example.jjeobjjeob.common.Entity.BaseEntity;
+import com.fmap.common.Entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Restaurant extends BaseEntity {
-
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,

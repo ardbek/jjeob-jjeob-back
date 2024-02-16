@@ -1,6 +1,6 @@
 package com.fmap.user.entity;
 
-import com.example.jjeobjjeob.common.Entity.BaseEntity;
+import com.fmap.common.Entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +13,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User extends BaseEntity {
-
-
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
