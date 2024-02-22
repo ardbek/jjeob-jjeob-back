@@ -131,6 +131,23 @@ public class ApiService {
         return updatedDataList;
     }
 
+    public List<ApiResponse> fetchAndUpdateData() throws Exception {
+        String apiUrl = getApiURL();
+        String data = getData(apiUrl);
+        int totalPage = getTotalPage(data);
+
+        List<ApiResponse> updatedDataList = new ArrayList<>();
+        for (int i = 1; i <= totalPage; i++) {
+            String dataApiUrl = apiUrl + "&pageIndex=" + i;
+            String responseData = getData(dataApiUrl);
+            List<ApiResponse> apiResponses = parseStringToObject(responseData);
+            if (apiResponses != null) {
+                updatedDataList.addAll(apiResponses);
+            }
+        }
+        return updatedDataList;
+    }
+
 
     /**
      * 요청 URL 생성
@@ -166,15 +183,32 @@ public class ApiService {
         return url;
     }
 
-    /**
-     * 데이터 갱신 DB 반영
-     * @return
-     */
-    public int patchData() {
+    private String getApiURL() {
+        String url = "http://www.localdata.go.kr/platform/rest/TO0/openDataApi?authKey=" + LOCALDATA_API_KEY;
 
+        url += "&resultType=json"; // 반환 타입 default : xml
+        url += "&opnSvcId=07_24_04_P";// 음식점 코드
+        url += "&pageSize=" + PAGE_SIZE;// 개발 : 최대 500건 / 운영 최대 10,000건
 
-        return 0;
+        // TODO 나중에 현재 날짜로
+//        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
+//            url += "&bgnYmd=" + apiReq.getBgnYmd() + "&endYmd=" + apiReq.getEndYmd();
+//        }
+//        if (apiReq.getState() != null) {
+//            url += "&state=" + apiReq.getState();
+//        }
+//        if (apiReq.getLastModTsBgn() != null) {
+//            // 데이터 갱신일자 시작일
+//            url += "&lastModTsBgn=" + apiReq.getLastModTsBgn();
+//        }
+//        if (apiReq.getLastModTsEnd() != null) {
+//            // 데이터 갱신일자 종료일
+//            url += "&lastModTsEnd=" + apiReq.getLastModTsBgn();
+//        }
+
+        return url;
     }
+
 
 
 }
