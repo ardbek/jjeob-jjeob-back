@@ -15,7 +15,7 @@ public class LocationUtils {
      * @param y
      * @return ProjCoordinate
      */
-    public ProjCoordinate CoordinateConversion(String x, String y) {
+    public static ProjCoordinate CoordinateConversion(String x, String y) {
 
         double d_x = Double.parseDouble(x);
         double d_y = Double.parseDouble(y);

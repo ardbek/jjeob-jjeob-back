@@ -2,19 +2,18 @@ package com.fmap.restaurant.entity;
 
 import com.fmap.common.Entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
 @SequenceGenerator(
         name = "RSTNT_SEQ_GENERATOR",
         sequenceName = "RSTNT_SEQ"
 )
 
+@Entity
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends BaseEntity {
     @Id
     @GeneratedValue(
@@ -41,9 +40,9 @@ public class Restaurant extends BaseEntity {
     @Column
     private String rstntNm; // 사업장 명 (음식점 명)
     @Column
-    private LocalDateTime apiUpdateDt; // 데이터 갱신 일자 (api로 받아오는 값)
-    @Column
-    private String bussType; // 업태 구분 (한식, 중식, 기타)
+    private String apiUpdateDt; // 데이터 갱신 일자 (api로 받아오는 값)
+//    @Column
+//    private String bussType; // 업태 구분 (한식, 중식, 기타)
     @Column
     private String epsg5174X; // EPSG:5174 - X 좌표
     @Column
@@ -53,4 +52,23 @@ public class Restaurant extends BaseEntity {
     @Column
     private String latitude; // WGS84 - Y 좌표(위도)
 
+    @Builder
+    public Restaurant(Long id, String managementNum, String opnSvcNm, String bussSttus, String closureDt, String oldPostCode, String oldAddr, String newPostCode, String newAddr, String rstntNm, String apiUpdateDt, /*String bussType,*/ String epsg5174X, String epsg5174y, String longitude, String latitude) {
+        this.id = id;
+        this.managementNum = managementNum;
+        this.opnSvcNm = opnSvcNm;
+        this.bussSttus = bussSttus;
+        this.closureDt = closureDt;
+        this.oldPostCode = oldPostCode;
+        this.oldAddr = oldAddr;
+        this.newPostCode = newPostCode;
+        this.newAddr = newAddr;
+        this.rstntNm = rstntNm;
+        this.apiUpdateDt = apiUpdateDt;
+        /*this.bussType = bussType;*/
+        this.epsg5174X = epsg5174X;
+        this.epsg5174y = epsg5174y;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 }
