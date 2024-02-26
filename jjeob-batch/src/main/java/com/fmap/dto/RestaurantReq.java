@@ -1,11 +1,11 @@
-package com.fmap.api.dto;
+package com.fmap.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ApiRequest {
+public class RestaurantReq {
     private String state;  // 운영상태코드 01: 영업/정상 02: 휴업 03: 폐업 04: 취소/말소/만료/정지/중지
     private String pageSize; // 페이지당 출력 갯수 (def:10)
     private String localCode; // 개방자치단체 코드(신고지역)

@@ -1,4 +1,4 @@
-package com.fmap.api.dto;
+package com.fmap.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
-public class ApiResponse {
+public class RestaurantRes {
     public String rowNum; // 번호
     public String opnSfTeamCode; // 개방자치단체 코드
     public String mgtNo; // 관리번호
@@ -39,4 +39,7 @@ public class ApiResponse {
 //    public String updateNm; // 업태 구분명
     public String siteTel; // 전화번호
 
+    public RestaurantRes(String bplcNm) {
+        this.bplcNm = bplcNm;
+    }
 }
