@@ -27,7 +27,7 @@ public class RestaurantItemProcessor implements ItemProcessor<RestaurantRes, Res
         String finalLatitude = (wgs84Coord != null) ? String.valueOf(wgs84Coord.x) : "";
         String finalLongitude = (wgs84Coord != null) ? String.valueOf(wgs84Coord.y) : "";
 
-        // Restaurant 객체 생성 및 데이터 설정
+        // Restaurant 객체 생성, 값 설정
         Restaurant restaurant = Restaurant.builder()
                 .apiUpdateDt(item.getUpdateDt())
                 .bussSttus(item.getDtlStateNm())
@@ -37,8 +37,8 @@ public class RestaurantItemProcessor implements ItemProcessor<RestaurantRes, Res
                 .epsg5174y(item.getY())
                 .newAddr(item.getRdnWhlAddr())
                 .oldAddr(item.getSiteWhlAddr())
-                .latitude(finalLatitude) // 변환된 latitude 값 또는 빈 문자열
-                .longitude(finalLongitude) // 변환된 longitude 값 또는 빈 문자열
+                .latitude(finalLatitude)
+                .longitude(finalLongitude)
                 .newPostCode(item.getRdnPostNo())
                 .oldPostCode(item.getSitePostNo())
                 .rstntNm(item.getBplcNm())
