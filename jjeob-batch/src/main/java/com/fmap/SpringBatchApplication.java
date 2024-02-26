@@ -8,32 +8,29 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @EnableBatchProcessing
 @SpringBootApplication
-public class SpringBatchApplication {
+public class SpringBatchApplication implements CommandLineRunner {
 
     private JobLauncher jobLauncher;
-    private Job testJob;
+    private Job updateRestaurantJob;
 
-    public SpringBatchApplication(JobLauncher jobLauncher, Job testJob) {
+    public SpringBatchApplication(JobLauncher jobLauncher, Job updateRestaurantJob) {
         this.jobLauncher = jobLauncher;
-        this.testJob = testJob;
+        this.updateRestaurantJob = updateRestaurantJob;
     }
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBatchApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner() throws Exception {
-        return args -> {
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addLong("time", System.currentTimeMillis()) // 잡 파라미터 설정
-                    .toJobParameters();
-            jobLauncher.run(testJob, jobParameters); // 배치 잡 실행
-        };
-    }
+    @Override
+    public void run(String... args) throws Exception {
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("time", System.currentTimeMillis())
+                .toJobParameters();
 
+        jobLauncher.run(updateRestaurantJob, jobParameters);
+    }
 }
