@@ -1,6 +1,7 @@
 package com.fmap.restaurant.entity;
 
 import com.fmap.common.Entity.BaseEntity;
+import com.fmap.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -51,6 +52,9 @@ public class Restaurant extends BaseEntity {
     private String longitude; // WGS84 - X 좌표 (경도)
     @Column
     private String latitude; // WGS84 - Y 좌표(위도)
+
+    @OneToOne(mappedBy = "restaurant")
+    private Post post;
 
     @Builder
     public Restaurant(Long id, String managementNum, String opnSvcNm, String bussSttus, String closureDt, String oldPostCode, String oldAddr, String newPostCode, String newAddr, String rstntNm, String apiUpdateDt, /*String bussType,*/ String epsg5174X, String epsg5174y, String longitude, String latitude) {

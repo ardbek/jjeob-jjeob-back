@@ -15,24 +15,24 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
     @Column(updatable = false)
-    private LocalDateTime frstRegistDt;
+    private LocalDateTime createdAt;
 
     @Column(updatable = false)
-    private String frstRegistId;
+    private String createdBy;
 
     @Column
-    private LocalDateTime lastModifiedDt;
+    private LocalDateTime updatedAt;
 
     @Column
-    private String lastModifiedId;
+    private String updatedBy;
 
     @PrePersist
     protected void onCreate() {
-        this.frstRegistDt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.lastModifiedDt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }
