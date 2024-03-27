@@ -16,6 +16,7 @@ public class LikePost {
             strategy = GenerationType.SEQUENCE,
             generator = "POST_SEQ_GENERATOR"
     )
+    @Column(name = "LIKEPOST_NO")
     private Long likePostNo;
 
     @ManyToOne

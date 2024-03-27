@@ -20,6 +20,7 @@ public class Friend {
             strategy = GenerationType.SEQUENCE,
             generator = "FRIEND_SEQ_GENERATOR"
     )
+    @Column(name = "FRIEND_NO")
     private Long friendNo;
 
     @ManyToOne

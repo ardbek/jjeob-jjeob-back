@@ -21,6 +21,7 @@ public class GroupUser {
             strategy = GenerationType.SEQUENCE,
             generator = "GROUPUSER_SEQ_GENERATOR"
     )
+    @Column(name = "GROUPUSER_NO")
     private Long groupUserNo;
 
     @ManyToOne

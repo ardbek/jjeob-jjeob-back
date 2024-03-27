@@ -21,7 +21,8 @@ public class Restaurant extends BaseEntity {
             strategy = GenerationType.SEQUENCE,
             generator = "RSTNT_SEQ_GENERATOR"
     )
-    private Long id; // PK
+    @Column(name="RSTNT_NO")
+    private Long restaurantNo; // PK
     @Column
     private String managementNum; // api pk
     @Column
@@ -57,8 +58,8 @@ public class Restaurant extends BaseEntity {
     private Post post;
 
     @Builder
-    public Restaurant(Long id, String managementNum, String opnSvcNm, String bussSttus, String closureDt, String oldPostCode, String oldAddr, String newPostCode, String newAddr, String rstntNm, String apiUpdateDt, /*String bussType,*/ String epsg5174X, String epsg5174y, String longitude, String latitude) {
-        this.id = id;
+    public Restaurant(Long restaurantNo, String managementNum, String opnSvcNm, String bussSttus, String closureDt, String oldPostCode, String oldAddr, String newPostCode, String newAddr, String rstntNm, String apiUpdateDt, /*String bussType,*/ String epsg5174X, String epsg5174y, String longitude, String latitude) {
+        this.restaurantNo = restaurantNo;
         this.managementNum = managementNum;
         this.opnSvcNm = opnSvcNm;
         this.bussSttus = bussSttus;

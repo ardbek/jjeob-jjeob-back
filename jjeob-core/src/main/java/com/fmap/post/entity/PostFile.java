@@ -18,11 +18,8 @@ public class PostFile {
             strategy = GenerationType.SEQUENCE,
             generator = "POST_SEQ_GENERATOR"
     )
+    @Column(name="POSTFILE_NO")
     private Long postFileNo;
-
-
-
-
 
     @ManyToOne
     @JoinColumn(name = "POST_NO")

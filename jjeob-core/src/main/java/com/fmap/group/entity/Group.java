@@ -21,6 +21,7 @@ public class Group {
             strategy = GenerationType.SEQUENCE,
             generator = "GROUP_SEQ_GENERATOR"
     )
+    @Column(name="GROUP_NO")
     private Long groupNo; // pk
 
     @ManyToOne

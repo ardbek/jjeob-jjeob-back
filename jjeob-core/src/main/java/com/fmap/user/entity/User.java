@@ -27,6 +27,7 @@ public class User extends BaseEntity {
             strategy = GenerationType.SEQUENCE,
             generator = "USER_SEQ_GENERATOR"
     )
+    @Column(name = "USER_NO")
     private Long userNo;
     @Column private String email;
     @Column private String userId;

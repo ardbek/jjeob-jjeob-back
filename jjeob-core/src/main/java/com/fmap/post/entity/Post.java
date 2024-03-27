@@ -26,6 +26,7 @@ public class Post extends BaseEntity {
             strategy = GenerationType.SEQUENCE,
             generator = "POST_SEQ_GENERATOR"
     )
+    @Column(name="POST_NO")
     private Long postNo; // PK
     @Column private String rating; //평점
     @Column private String category; //카테고리

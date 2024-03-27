@@ -20,6 +20,7 @@ public class PostGroup {
             strategy = GenerationType.SEQUENCE,
             generator = "POSTGROUP_SEQ_GENERATOR"
     )
+    @Column(name="POSTGROUP_NO")
     private Long postGroupNo;
 
     @ManyToOne
