@@ -1,5 +1,6 @@
 package com.fmap.group.entity;
 
+import com.fmap.common.Entity.BaseEntity;
 import com.fmap.user.entity.User;
 import jakarta.persistence.*;
 
@@ -14,7 +15,8 @@ import jakarta.persistence.*;
 
 
 @Entity
-public class GroupUser {
+@Table(name = "TBL_GROUP_USER")
+public class GroupUser extends BaseEntity {
 
     @Id
     @GeneratedValue(

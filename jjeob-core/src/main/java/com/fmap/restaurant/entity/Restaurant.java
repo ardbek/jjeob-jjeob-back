@@ -3,9 +3,10 @@ package com.fmap.restaurant.entity;
 import com.fmap.common.Entity.BaseEntity;
 import com.fmap.post.entity.Post;
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @SequenceGenerator(
         name = "RSTNT_SEQ_GENERATOR",
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "TBL_RESTAURANT")
 public class Restaurant extends BaseEntity {
     @Id
     @GeneratedValue(
@@ -53,12 +55,18 @@ public class Restaurant extends BaseEntity {
     private String longitude; // WGS84 - X 좌표 (경도)
     @Column
     private String latitude; // WGS84 - Y 좌표(위도)
+    @Column
+    private String siteTel;
 
     @OneToOne(mappedBy = "restaurant")
     private Post post;
 
     @Builder
-    public Restaurant(Long restaurantNo, String managementNum, String opnSvcNm, String bussSttus, String closureDt, String oldPostCode, String oldAddr, String newPostCode, String newAddr, String rstntNm, String apiUpdateDt, /*String bussType,*/ String epsg5174X, String epsg5174y, String longitude, String latitude) {
+    public Restaurant(Long restaurantNo, String managementNum, String opnSvcNm,
+                      String bussSttus, String closureDt, String oldPostCode,
+                      String oldAddr, String newPostCode, String newAddr,
+                      String rstntNm, String apiUpdateDt, /*String bussType,*/
+                      String epsg5174X, String epsg5174y, String longitude, String latitude, String siteTel) {
         this.restaurantNo = restaurantNo;
         this.managementNum = managementNum;
         this.opnSvcNm = opnSvcNm;
@@ -75,5 +83,6 @@ public class Restaurant extends BaseEntity {
         this.epsg5174y = epsg5174y;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.siteTel = siteTel;
     }
 }

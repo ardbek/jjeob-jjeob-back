@@ -1,5 +1,6 @@
 package com.fmap.post.entity;
 
+import com.fmap.common.Entity.BaseEntity;
 import com.fmap.group.entity.Group;
 import jakarta.persistence.*;
 
@@ -13,7 +14,8 @@ import jakarta.persistence.*;
 )
 
 @Entity
-public class PostGroup {
+@Table(name = "TBL_POSTGROUP")
+public class PostGroup extends BaseEntity {
 
     @Id
     @GeneratedValue(

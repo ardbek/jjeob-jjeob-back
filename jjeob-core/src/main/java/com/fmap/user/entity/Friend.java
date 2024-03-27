@@ -1,6 +1,7 @@
 package com.fmap.user.entity;
 
 
+import com.fmap.common.Entity.BaseEntity;
 import jakarta.persistence.*;
 
 /**
@@ -13,7 +14,8 @@ import jakarta.persistence.*;
 )
 
 @Entity
-public class Friend {
+@Table(name = "TBL_FRIEND")
+public class Friend extends BaseEntity {
 
     @Id
     @GeneratedValue(

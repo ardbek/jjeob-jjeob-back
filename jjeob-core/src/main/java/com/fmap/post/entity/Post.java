@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "TBL_POST")
 public class Post extends BaseEntity {
     @Id
     @GeneratedValue(

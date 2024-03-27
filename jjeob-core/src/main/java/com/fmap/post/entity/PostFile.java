@@ -1,6 +1,7 @@
 package com.fmap.post.entity;
 
 
+import com.fmap.common.Entity.BaseEntity;
 import jakarta.persistence.*;
 
 /**
@@ -12,7 +13,9 @@ import jakarta.persistence.*;
         sequenceName = "POST_SEQ"
 )
 
-public class PostFile {
+@Entity
+@Table(name = "TBL_POSTFILE")
+public class PostFile extends BaseEntity {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,

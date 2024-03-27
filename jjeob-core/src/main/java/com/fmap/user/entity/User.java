@@ -20,7 +20,7 @@ import java.util.List;
 )
 @Getter
 @Setter
-@Table(name = "USERS")
+@Table(name = "TBL_USERS")
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(

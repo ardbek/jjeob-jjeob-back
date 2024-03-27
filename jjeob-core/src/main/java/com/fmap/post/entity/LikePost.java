@@ -1,5 +1,6 @@
 package com.fmap.post.entity;
 
+import com.fmap.common.Entity.BaseEntity;
 import com.fmap.user.entity.User;
 import jakarta.persistence.*;
 
@@ -9,7 +10,8 @@ import jakarta.persistence.*;
 )
 
 @Entity
-public class LikePost {
+@Table(name = "TBL_LIKE_POST")
+public class LikePost extends BaseEntity {
 
     @Id
     @GeneratedValue(

@@ -44,6 +44,7 @@ public class RestaurantItemProcessor implements ItemProcessor<RestaurantRes, Res
                 .rstntNm(item.getBplcNm())
                 .opnSvcNm(item.getOpnSvcNm())
                 .managementNum(item.getMgtNo())
+                .siteTel(item.getSiteTel()) // todo 전화번호 양식에 맞게 파싱 필요
                 .build();
 
         return restaurant;

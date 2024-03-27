@@ -1,5 +1,6 @@
 package com.fmap.group.entity;
 
+import com.fmap.common.Entity.BaseEntity;
 import com.fmap.user.entity.User;
 import jakarta.persistence.*;
 
@@ -14,7 +15,8 @@ import java.util.List;
         sequenceName = "GROUP_SEQ"
 )
 @Entity
-public class Group {
+@Table(name = "TBL_GROUP")
+public class Group extends BaseEntity {
 
     @Id
     @GeneratedValue(
