@@ -27,7 +27,7 @@ public class RestaurantItemReader implements ItemReader<RestaurantRes> {
     private void getDataFromApi() {
         List<RestaurantRes> restaurants = localDataApiUtils.fetchAndUpdateData();
         this.restaurantResIterator = restaurants.iterator();
-        log.info("restaurants : {}", restaurants.get(1));
+//        log.info("restaurants : {}", restaurants.get(0).getBplcNm());
     }
 
     @Override

@@ -57,6 +57,7 @@ public class RestaurantItemWriter implements ItemWriter<Restaurant> {
                 .rstntNm(newItem.getRstntNm())
                 .opnSvcNm(newItem.getOpnSvcNm())
                 .managementNum(newItem.getManagementNum())
+                .siteTel(newItem.getSiteTel())
                 .build();
 
         restaurantRepository.save(existingRestaurant);

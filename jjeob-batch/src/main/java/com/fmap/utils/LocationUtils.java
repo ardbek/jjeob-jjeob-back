@@ -12,8 +12,8 @@ public class LocationUtils {
     /**
      * EPSG:5174 좌표계 값을 전달받아 WGS84 좌표계 값으로 반환
      *
-     * @param x
-     * @param y
+     * @param x EPSG:5174 x좌표
+     * @param y EPSG:5174 y좌표
      * @return ProjCoordinate
      */
     public static ProjCoordinate CoordinateConversion(String x, String y) {
@@ -38,7 +38,7 @@ public class LocationUtils {
         ProjCoordinate wgs84Coord = new ProjCoordinate();
 
         transform.transform(tmCoord, wgs84Coord);
-        log.info("LocationUtils :: {},{}", wgs84Coord.x, wgs84Coord.y);
+//        log.info("LocationUtils :: {},{}", wgs84Coord.x, wgs84Coord.y);
         return wgs84Coord;
     }
 

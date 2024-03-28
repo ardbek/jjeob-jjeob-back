@@ -17,6 +17,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +27,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocalDataApiUtils {
 
+    private final String SERVICE_CODE = "07_24_04_P"; // 음식점 코드
     @Value("${LOCALDATA_API_KEY}")
     private String LOCALDATA_API_KEY;
     private final int PAGE_SIZE = 500;
-
-    private final RestaurantRepository restaurantRepository;
+    private final String API_URL = "http://www.localdata.go.kr/platform/rest/TO0/openDataApi";
 
     /**
      * Api 데이터 호출
@@ -117,6 +119,8 @@ public class LocalDataApiUtils {
         String data = getData(apiUrl);
         int totalPage = getTotalPage(data);
 
+        log.info("fetchAndUpdateData :: totalPage = {}", totalPage );
+
         List<RestaurantRes> updatedDataList = new ArrayList<>();
         for (int i = 1; i <= totalPage; i++) {
             String dataApiUrl = apiUrl + "&pageIndex=" + i;
@@ -167,7 +171,7 @@ public class LocalDataApiUtils {
      * @return
      */
     private String getApiURL(RestaurantReq apiReq) {
-        String url = "http://www.localdata.go.kr/platform/rest/TO0/openDataApi?authKey=" + LOCALDATA_API_KEY;
+        String url = API_URL + "?authKey=" + LOCALDATA_API_KEY;
 
         url += "&resultType=json"; // 반환 타입 default : xml
         url += "&opnSvcId=07_24_04_P";// 음식점 코드
@@ -176,9 +180,11 @@ public class LocalDataApiUtils {
         if (apiReq.getLocalCode() != null) {
             url += "&localCode=" + apiReq.getLocalCode();
         }
+        // bgnYmd, endYmd = YYYYMMDD
         if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
             url += "&bgnYmd=" + apiReq.getBgnYmd() + "&endYmd=" + apiReq.getEndYmd();
         }
+        url += "&bgnYmd=" + "20240323" + "&endYmd=" + "20240325";
         if (apiReq.getState() != null) {
             url += "&state=" + apiReq.getState();
         }
@@ -195,11 +201,25 @@ public class LocalDataApiUtils {
     }
 
     private String getApiURL() {
-        String url = "http://www.localdata.go.kr/platform/rest/TO0/openDataApi?authKey=" + LOCALDATA_API_KEY;
+        String url = API_URL + "?authKey=" + LOCALDATA_API_KEY;
 
         url += "&resultType=json"; // 반환 타입 default : xml
-        url += "&opnSvcId=07_24_04_P";// 음식점 코드
+        url += "&opnSvcId=" + SERVICE_CODE;// 음식점 코드
         url += "&pageSize=" + PAGE_SIZE;// 개발 : 최대 500건 / 운영 최대 10,000건
+
+        LocalDateTime now = LocalDateTime.now();
+        String toDay = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        LocalDateTime firstDayOfMonth = now.withDayOfMonth(1);
+        String firstDay = firstDayOfMonth.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        log.info("데이터 변동분 시작일 = {}", firstDay);
+
+        LocalDateTime twoDaysAgo = now.minusDays(2);
+        String twoDaysAgoDate = twoDaysAgo.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        log.info("데이터 변동분 종료일 = {}", twoDaysAgoDate);
+
+        url += "&lastModTsBgn=" + firstDay;
+        url += "&lastModTsEnd=" + twoDaysAgoDate;
 
         // TODO 나중에 현재 날짜로
 //        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
