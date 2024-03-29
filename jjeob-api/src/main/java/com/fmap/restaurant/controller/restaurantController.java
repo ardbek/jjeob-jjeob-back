@@ -1,5 +1,6 @@
 package com.fmap.restaurant.controller;
 
+import com.fmap.common.ApiResponse;
 import com.fmap.restaurant.entity.Restaurant;
 import com.fmap.restaurant.service.RestaurantService;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.fmap.common.ApiResponse.failure;
+import static com.fmap.common.ApiResponse.success;
 
 @RestController
 @RequestMapping("/api/restaurant")
@@ -25,8 +29,14 @@ public class restaurantController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<Restaurant> registRestaurant(@RequestBody Restaurant restaurant) {
-        return new ResponseEntity<>(restaurantService.saveRestaurant(restaurant), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse> registRestaurant(@RequestBody Restaurant restaurant) {
+        Restaurant registedRstnt = restaurantService.saveRestaurant(restaurant);
+        if (registedRstnt != null) {
+            return new ResponseEntity(success(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(failure(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     /**
