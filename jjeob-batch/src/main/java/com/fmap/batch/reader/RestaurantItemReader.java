@@ -9,6 +9,7 @@ import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,8 +27,11 @@ public class RestaurantItemReader implements ItemReader<RestaurantRes> {
 
     private void getDataFromApi() {
         List<RestaurantRes> restaurants = localDataApiUtils.fetchAndUpdateData();
-        this.restaurantResIterator = restaurants.iterator();
-//        log.info("restaurants : {}", restaurants.get(0).getBplcNm());
+        if (restaurants != null) {
+            this.restaurantResIterator = restaurants.iterator();
+        } else {
+            this.restaurantResIterator = Collections.emptyIterator();
+        }
     }
 
     @Override

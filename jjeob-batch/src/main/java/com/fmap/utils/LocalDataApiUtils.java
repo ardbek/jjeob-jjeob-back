@@ -219,7 +219,7 @@ public class LocalDataApiUtils {
         log.info("데이터 변동분 종료일 = {}", twoDaysAgoDate);
 
         url += "&lastModTsBgn=" + firstDay;
-        url += "&lastModTsEnd=" + twoDaysAgoDate;
+        url += "&lastModTsEnd=" + toDay;
 
         // TODO 나중에 현재 날짜로
 //        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
