@@ -18,7 +18,7 @@ import static com.fmap.common.ApiResponse.success;
 
 @RestController
 @RequestMapping("/api/restaurant")
-public class restaurantController {
+public class RestaurantController {
 
     private final RestaurantService restaurantService;
     private final String RESULT_CODE = "RESULT_CODE";
@@ -26,7 +26,7 @@ public class restaurantController {
     private final String EMPTY = "EMPTY";
     private final String NOT_FOUND = "NOT_FOUND";
 
-    public restaurantController(RestaurantService restaurantService) {
+    public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
