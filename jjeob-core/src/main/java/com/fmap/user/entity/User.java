@@ -4,6 +4,7 @@ import com.fmap.common.Entity.BaseEntity;
 import com.fmap.post.entity.LikePost;
 import com.fmap.post.entity.Post;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,4 +40,14 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private List<LikePost> likePosts;
+
+    @Builder
+    public User(String userId, String email, String password, String name) {
+        this.email = email;
+        this.userId = userId;
+        this.name = name;
+        this.password = password;
+    }
+
+
 }

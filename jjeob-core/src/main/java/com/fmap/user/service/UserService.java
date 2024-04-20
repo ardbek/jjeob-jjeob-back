@@ -15,8 +15,26 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * id로 user 검색
+     * @param id
+     * @return
+     */
     public Optional<User> findById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user;
+    }
+
+    /**
+     * user 등록
+     * @param joinUser
+     */
+    public boolean join(User joinUser) {
+        User savedUser = userRepository.save(joinUser);
+        if (savedUser != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
