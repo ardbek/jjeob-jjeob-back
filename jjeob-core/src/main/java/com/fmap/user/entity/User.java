@@ -6,6 +6,7 @@ import com.fmap.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "TBL_USERS")
+@NoArgsConstructor
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(
