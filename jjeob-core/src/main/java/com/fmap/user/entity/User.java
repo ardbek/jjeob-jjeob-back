@@ -36,6 +36,8 @@ public class User extends BaseEntity {
     @Column private String userId;
     @Column private String name;
     @Column private String password;
+    @Column private String provider;
+    @Column private String providerId;
 
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
@@ -44,11 +46,13 @@ public class User extends BaseEntity {
     private List<LikePost> likePosts;
 
     @Builder
-    public User(String userId, String email, String password, String name) {
+    public User(String userId, String email, String password, String name, String provider, String providerId) {
         this.email = email;
         this.userId = userId;
         this.name = name;
         this.password = password;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
 
