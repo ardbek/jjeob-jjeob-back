@@ -1,10 +1,7 @@
 package com.fmap.config.oauth;
 
 import com.fmap.config.auth.PrincipalDetails;
-import com.fmap.config.auth.provider.FaceBookUserInfo;
-import com.fmap.config.auth.provider.GoogleUserInfo;
-import com.fmap.config.auth.provider.NaverUserInfo;
-import com.fmap.config.auth.provider.OAuth2UserInfo;
+import com.fmap.config.auth.provider.*;
 import com.fmap.user.entity.User;
 import com.fmap.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +11,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -35,15 +34,18 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         OAuth2UserInfo oAuth2UserInfo = null;
 
-        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+        if ("google".equals(userRequest.getClientRegistration().getRegistrationId())) {
             log.debug("google 로그인 요청");
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
+        } else if ("facebook".equals(userRequest.getClientRegistration().getRegistrationId())) {
             log.debug("facebook 로그인 요청");
             oAuth2UserInfo = new FaceBookUserInfo(oAuth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+        } else if ("naver".equals(userRequest.getClientRegistration().getRegistrationId())) {
             log.debug("naver 로그인 요청");
-            oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
+            oAuth2UserInfo = new NaverUserInfo((Map<String, Object>) oAuth2User.getAttributes().get("response"));
+        } else if ("kakao".equals(userRequest.getClientRegistration().getRegistrationId())) {
+            log.debug("kakao 로그인 요청");
+            oAuth2UserInfo = new KakaoUserInfo((Map<String, Object>) oAuth2User.getAttributes().get("id"));
         } else {
             log.info("미지원 소셜로그인 플랫폼");
         }
@@ -55,7 +57,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String password = "tempPassword";
         String email = oAuth2UserInfo.getEmail();
 
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUserId(username);
         if (user == null) {
             log.debug("PrincipalOauth2UserService :: 미가입 사용자");
             user = User.builder()
