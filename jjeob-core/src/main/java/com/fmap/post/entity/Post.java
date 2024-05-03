@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "TBL_POST")
+@Table(name = "TB_POST")
 public class Post extends BaseEntity {
     @Id
     @GeneratedValue(
@@ -37,11 +37,11 @@ public class Post extends BaseEntity {
     @Column private String visitorCount; // 방문자 수
     @Column private String visibleYn; // 글 노출 여부
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_NO", referencedColumnName = "USER_NO")
     private User user;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RSTNT_NO", referencedColumnName = "RSTNT_NO")
     private Restaurant restaurant;
 

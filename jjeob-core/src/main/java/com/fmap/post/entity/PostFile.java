@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 )
 
 @Entity
-@Table(name = "TBL_POSTFILE")
+@Table(name = "TB_POSTFILE")
 public class PostFile extends BaseEntity {
     @Id
     @GeneratedValue(
@@ -24,7 +24,7 @@ public class PostFile extends BaseEntity {
     @Column(name="POSTFILE_NO")
     private Long postFileNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_NO")
     private Post post;
 

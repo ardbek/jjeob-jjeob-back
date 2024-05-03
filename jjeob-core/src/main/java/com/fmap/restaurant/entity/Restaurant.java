@@ -16,14 +16,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "TBL_RESTAURANT")
+@Table(name = "TB_RESTAURANT")
 public class Restaurant extends BaseEntity {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "RSTNT_SEQ_GENERATOR"
     )
-    @Column(name="RSTNT_NO")
+    @Column(name = "RSTNT_NO")
     private Long restaurantNo; // PK
     @Column
     private String managementNum; // api pk
@@ -45,7 +45,7 @@ public class Restaurant extends BaseEntity {
     private String rstntNm; // 사업장 명 (음식점 명)
     @Column
     private String apiUpdateDt; // 데이터 갱신 일자 (api로 받아오는 값)
-//    @Column
+    //    @Column
 //    private String bussType; // 업태 구분 (한식, 중식, 기타)
     @Column
     private String epsg5174X; // EPSG:5174 - X 좌표
@@ -58,7 +58,7 @@ public class Restaurant extends BaseEntity {
     @Column
     private String siteTel;
 
-    @OneToOne(mappedBy = "restaurant")
+    @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private Post post;
 
     @Builder

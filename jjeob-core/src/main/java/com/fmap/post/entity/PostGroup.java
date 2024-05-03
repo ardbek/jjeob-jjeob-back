@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 )
 
 @Entity
-@Table(name = "TBL_POSTGROUP")
+@Table(name = "TB_POSTGROUP")
 public class PostGroup extends BaseEntity {
 
     @Id
@@ -25,11 +25,11 @@ public class PostGroup extends BaseEntity {
     @Column(name="POSTGROUP_NO")
     private Long postGroupNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_NO", referencedColumnName = "POST_NO")
     private Post post;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GROUP_NO", referencedColumnName = "GROUP_NO")
     private Group group;
 

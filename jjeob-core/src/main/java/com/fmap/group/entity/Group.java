@@ -15,7 +15,7 @@ import java.util.List;
         sequenceName = "GROUP_SEQ"
 )
 @Entity
-@Table(name = "TBL_GROUP")
+@Table(name = "TB_GROUP")
 public class Group extends BaseEntity {
 
     @Id
@@ -26,7 +26,7 @@ public class Group extends BaseEntity {
     @Column(name="GROUP_NO")
     private Long groupNo; // pk
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_NO", referencedColumnName = "USER_NO")
     private User user;
 

@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 )
 
 @Entity
-@Table(name = "TBL_LIKE_POST")
+@Table(name = "TB_LIKE_POST")
 public class LikePost extends BaseEntity {
 
     @Id
@@ -21,11 +21,11 @@ public class LikePost extends BaseEntity {
     @Column(name = "LIKEPOST_NO")
     private Long likePostNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_NO")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_NO")
     private Post post;
 

@@ -22,7 +22,7 @@ import java.util.List;
 )
 @Getter
 @Setter
-@Table(name = "TBL_USERS")
+@Table(name = "TB_USERS")
 @NoArgsConstructor
 public class User extends BaseEntity {
     @Id

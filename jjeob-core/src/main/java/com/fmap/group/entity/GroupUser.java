@@ -15,7 +15,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "TBL_GROUP_USER")
+@Table(name = "TB_GROUP_USER")
 public class GroupUser extends BaseEntity {
 
     @Id
@@ -26,11 +26,11 @@ public class GroupUser extends BaseEntity {
     @Column(name = "GROUPUSER_NO")
     private Long groupUserNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GROUP_NO", referencedColumnName = "GROUP_NO")
     private Group group;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_NO", referencedColumnName = "USER_NO")
     private User user;
 

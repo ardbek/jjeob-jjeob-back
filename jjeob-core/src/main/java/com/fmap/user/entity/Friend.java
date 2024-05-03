@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 )
 
 @Entity
-@Table(name = "TBL_FRIEND")
+@Table(name = "TB_FRIEND")
 public class Friend extends BaseEntity {
 
     @Id
@@ -25,11 +25,11 @@ public class Friend extends BaseEntity {
     @Column(name = "FRIEND_NO")
     private Long friendNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_NO")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FRIEND_USER_NO")
     private User friendUser;
 
