@@ -56,8 +56,6 @@ public class ApiController {
             }
         }
 
-
-
         // 웹에 출력 테스트
         res.setCharacterEncoding("UTF-8");
         res.setContentType("application/json");

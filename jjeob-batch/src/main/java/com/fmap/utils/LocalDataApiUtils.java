@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -207,19 +208,17 @@ public class LocalDataApiUtils {
         url += "&opnSvcId=" + SERVICE_CODE;// 음식점 코드
         url += "&pageSize=" + PAGE_SIZE;// 개발 : 최대 500건 / 운영 최대 10,000건
 
-        LocalDateTime now = LocalDateTime.now();
-        String toDay = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-
-        LocalDateTime firstDayOfMonth = now.withDayOfMonth(1);
-        String firstDay = firstDayOfMonth.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        log.info("데이터 변동분 시작일 = {}", firstDay);
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        String today = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
         LocalDateTime twoDaysAgo = now.minusDays(2);
         String twoDaysAgoDate = twoDaysAgo.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        log.info("데이터 변동분 종료일 = {}", twoDaysAgoDate);
 
-        url += "&lastModTsBgn=" + firstDay;
-        url += "&lastModTsEnd=" + toDay;
+        log.info("lastModTsBgn(변동분 시작일) : {}", twoDaysAgoDate);
+        log.info("lastModTsBgn(변동분 종료일) : {}", today);
+
+        url += "&lastModTsBgn=" + twoDaysAgoDate;
+        url += "&lastModTsEnd=" + today;
 
         // TODO 나중에 현재 날짜로
 //        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {

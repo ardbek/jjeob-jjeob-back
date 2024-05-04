@@ -17,7 +17,7 @@ public class BatchJobScheduler {
     private JobLauncher jobLauncher;
     private Job updateRestaurantJob;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 23 * * MON-SAT") //월-토 23시에 실행
     public void runBatchJob() {
         try {
             JobParameters jobParameters = new JobParametersBuilder()
