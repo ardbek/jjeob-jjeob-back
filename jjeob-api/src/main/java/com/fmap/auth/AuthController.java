@@ -1,41 +1,40 @@
-package com.fmap.controller;
+package com.fmap.auth;
 
 import com.fmap.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@Slf4j
 @Controller
-public class SecurityController {
+public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @GetMapping("/test/oauth/login")
     public @ResponseBody String testOauthLogin(Authentication authentication,
                                                @AuthenticationPrincipal OAuth2User oauth) { // DI(의존성 주입)
-        System.out.println("/test/oauth/login =========================");
+        log.info("/test/oauth/login =========================");
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("oAuth2User = " + oAuth2User.getAttributes());
+        log.info("oAuth2User = {}", oAuth2User.getAttributes());
 
-        System.out.println("oauth = " + oauth.getAttributes());
+        log.info("oauth = {}", oauth.getAttributes());
 
         return "OAuth 세션 정보 확인하기";
     }
 
     /**
      * 인덱스 페이지
+     *
      * @return
      */
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public String index() {
         //머스테치 기본 폴더 src/main/resources/
         // viewResolver : templates(prefix), .mustache (suffix) 생략가능
@@ -45,6 +44,7 @@ public class SecurityController {
 
     /**
      * 관리자
+     *
      * @return
      */
     @GetMapping("/admin")
@@ -54,6 +54,7 @@ public class SecurityController {
 
     /**
      * 매니저
+     *
      * @return
      */
     @GetMapping("/manager")
@@ -63,6 +64,7 @@ public class SecurityController {
 
     /**
      * 로그인 (spring security가 기본 설정된 페이지로 이동키기 때문에 SecurityConfig에서 설정)
+     *
      * @return
      */
     @GetMapping("/loginForm")
@@ -72,12 +74,12 @@ public class SecurityController {
 
     /**
      * 회원가입 form
+     *
      * @return
      */
     @GetMapping("/joinForm")
     public String joinForm() {
         return "joinForm";
     }
-
 
 }

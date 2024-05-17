@@ -3,7 +3,7 @@ package com.fmap.user.controller;
 import com.fmap.common.ApiResponse;
 import com.fmap.user.dto.UserReq;
 import com.fmap.user.entity.User;
-import com.fmap.user.service.UserService;
+import com.fmap.user.service.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,28 +13,15 @@ import java.util.Optional;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     /**
-     * 아이디로 user 검색
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity getUserById(@PathVariable Long id) {
-
-        Optional<User> findUser = userService.findById(id);
-
-        return findUser.map(user -> ResponseEntity.ok(ApiResponse.success(user)))
-                .orElseGet(() -> ResponseEntity.ok(ApiResponse.success()));
-    }
-
-    /**
-     * user 등록
+     * 회원 가입
+     *
      * @param userReq
      * @return
      */
@@ -48,13 +35,28 @@ public class UserController {
                 .password(userReq.getPassword())
                 .build();
 
-        boolean joinFlag = userService.join(joinUser);
+        boolean joinFlag = userServiceImpl.join(joinUser);
 
         if (joinFlag) {
             return ResponseEntity.ok(ApiResponse.success("가입 성공!"));
         } else {
             return ResponseEntity.ok(ApiResponse.failure());
         }
+    }
+
+    /**
+     * 아이디로 user 검색
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity getUserById(@PathVariable Long id) {
+
+        Optional<User> findUser = userServiceImpl.findById(id);
+
+        return findUser.map(user -> ResponseEntity.ok(ApiResponse.success(user)))
+                .orElseGet(() -> ResponseEntity.ok(ApiResponse.success()));
     }
 
 
