@@ -1,5 +1,6 @@
 package com.fmap.user.service;
 
+import com.fmap.user.dto.UserReq;
 import com.fmap.user.entity.User;
 import com.fmap.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -27,14 +28,16 @@ public class UserServiceImpl implements UserService {
 
     /**
      * user 등록
-     * @param joinUser
+     * @param userReq
      */
-    public boolean join(User joinUser) {
+    public User join(UserReq userReq) {
+
+        String password = userReq.getPassword();
+        // 비밀번호
+
+        User joinUser = userReq.toEntity();
         User savedUser = userRepository.save(joinUser);
-        if (savedUser != null) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return savedUser;
     }
 }

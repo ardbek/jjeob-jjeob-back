@@ -3,6 +3,7 @@ package com.fmap.user.entity;
 import com.fmap.common.Entity.BaseEntity;
 import com.fmap.post.entity.LikePost;
 import com.fmap.post.entity.Post;
+import com.fmap.user.dto.UserReq;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,8 +34,7 @@ public class User extends BaseEntity {
     @Column(name = "USER_NO")
     private Long userNo;
     @Column private String email;
-    @Column private String userId;
-    @Column private String name;
+    @Column private String nickname;
     @Column private String password;
     @Column private String provider;
     @Column private String providerId;
@@ -46,13 +46,26 @@ public class User extends BaseEntity {
     private List<LikePost> likePosts;
 
     @Builder
-    public User(String userId, String email, String password, String name, String provider, String providerId) {
+    public User(String email, String password, String nickname, String provider, String providerId) {
         this.email = email;
-        this.userId = userId;
-        this.name = name;
+        this.nickname = nickname;
         this.password = password;
         this.provider = provider;
         this.providerId = providerId;
+    }
+
+    /**
+     * User Entity -> UserReq
+     * @param user
+     * @return
+     */
+    public static UserReq fromEntity(User user) {
+        return UserReq.builder()
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .password(user.getPassword())
+                .build();
+
     }
 
 

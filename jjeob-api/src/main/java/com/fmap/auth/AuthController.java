@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AuthController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public AuthController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/test/oauth/login")
     public @ResponseBody String testOauthLogin(Authentication authentication,

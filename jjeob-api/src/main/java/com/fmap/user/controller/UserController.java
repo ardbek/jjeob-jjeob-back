@@ -4,6 +4,7 @@ import com.fmap.common.ApiResponse;
 import com.fmap.user.dto.UserReq;
 import com.fmap.user.entity.User;
 import com.fmap.user.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,22 +27,16 @@ public class UserController {
      * @return
      */
     @PostMapping
-    public ResponseEntity join(UserReq userReq) {
+    public ResponseEntity join(@Valid UserReq userReq) {
 
-        User joinUser = User.builder()
-                .email(userReq.getEmail())
-                .userId(userReq.getUserId())
-                .name(userReq.getName())
-                .password(userReq.getPassword())
-                .build();
+        User savedUser = userServiceImpl.join(userReq);
 
-        boolean joinFlag = userServiceImpl.join(joinUser);
-
-        if (joinFlag) {
-            return ResponseEntity.ok(ApiResponse.success("가입 성공!"));
-        } else {
+        if (savedUser == null) {
             return ResponseEntity.ok(ApiResponse.failure());
+        } else {
+            return ResponseEntity.ok(ApiResponse.success("가입 성공!"));
         }
+
     }
 
     /**
