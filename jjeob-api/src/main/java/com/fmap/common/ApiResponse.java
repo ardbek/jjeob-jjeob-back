@@ -9,14 +9,14 @@ import static com.fmap.common.ResponseType.*;
 @Getter
 @NoArgsConstructor
 public class ApiResponse<T> {
-    private int code;
+    private String code;
     private String message;
     private T data;
 
     @Builder
     public ApiResponse(ResponseType responseType, T data) {
-        this.code = responseType.getCode();
-        this.message = responseType.getMessage();
+        this.code = responseType.getResultCode();
+        this.message = responseType.getResultMessage();
         this.data = data;
     }
 
@@ -32,7 +32,7 @@ public class ApiResponse<T> {
 
     public static ApiResponse failure() {
         return ApiResponse.builder()
-                .responseType(FAILURE)
+                .responseType(FAIL)
                 .build();
     }
 
