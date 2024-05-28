@@ -1,11 +1,9 @@
 package com.fmap.user.dto;
 
 import com.fmap.common.validate.ValidPassword;
-import com.fmap.user.entity.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,18 +24,5 @@ public class UserReq {
     @NotEmpty(message = "비밀번호는 필수입니다.")
     @ValidPassword
     private String password;
-
-    /**
-     * UserReq -> UserEntity
-     * @return
-     */
-    public User toEntity() {
-        return User.builder()
-                .email(this.email)
-                .nickname(this.nickname)
-                .password(this.password)
-                .build();
-    }
-
 
 }

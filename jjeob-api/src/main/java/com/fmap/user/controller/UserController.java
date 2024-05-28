@@ -2,6 +2,7 @@ package com.fmap.user.controller;
 
 import com.fmap.common.ApiResponse;
 import com.fmap.user.dto.UserReq;
+import com.fmap.user.dto.UserRes;
 import com.fmap.user.entity.User;
 import com.fmap.user.service.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -29,7 +30,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity join(@Valid UserReq userReq) {
 
-        User savedUser = userServiceImpl.join(userReq);
+        UserRes savedUser = userServiceImpl.join(userReq);
 
         if (savedUser == null) {
             return ResponseEntity.ok(ApiResponse.failure());

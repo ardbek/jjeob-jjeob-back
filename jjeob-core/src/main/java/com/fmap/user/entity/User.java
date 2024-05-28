@@ -3,7 +3,6 @@ package com.fmap.user.entity;
 import com.fmap.common.Entity.BaseEntity;
 import com.fmap.post.entity.LikePost;
 import com.fmap.post.entity.Post;
-import com.fmap.user.dto.UserReq;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -54,19 +53,6 @@ public class User extends BaseEntity {
         this.providerId = providerId;
     }
 
-    /**
-     * User Entity -> UserReq
-     * @param user
-     * @return
-     */
-    public static UserReq fromEntity(User user) {
-        return UserReq.builder()
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .password(user.getPassword())
-                .build();
-
-    }
 
 
 }
