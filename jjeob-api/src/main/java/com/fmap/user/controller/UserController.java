@@ -1,12 +1,13 @@
 package com.fmap.user.controller;
 
 import com.fmap.common.ApiResponse;
-import com.fmap.user.dto.UserReq;
-import com.fmap.user.dto.UserRes;
+import com.fmap.jjeobcommon.dto.user.UserReq;
+import com.fmap.jjeobcommon.dto.user.UserRes;
 import com.fmap.user.entity.User;
 import com.fmap.user.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -29,6 +30,10 @@ public class UserController {
      */
     @PostMapping
     public ResponseEntity join(@Valid UserReq userReq) {
+
+        // 비밀번호 암호화
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        userReq.setPassword(passwordEncoder.encode(userReq.getPassword()));
 
         UserRes savedUser = userServiceImpl.join(userReq);
 

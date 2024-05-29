@@ -14,6 +14,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private static final String[] PERMIT_URL_ARRAY = {
+            "/api/login/**",
+            "/api/join/**"
+    };
+
     @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
 
@@ -32,7 +37,7 @@ public class SecurityConfig {
 //                        authorizeRequests
 //                                .requestMatchers("/user/**").authenticated()
 //                                .requestMatchers("/admin/**").hasRole("ADMIN")
-//                                .anyRequest().permitAll()
+//                                .anyRequest(PERMIT_URL_ARRAY).permitAll()
 //                )
                 .formLogin(formLogin ->
                         formLogin

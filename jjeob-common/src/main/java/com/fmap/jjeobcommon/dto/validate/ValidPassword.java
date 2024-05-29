@@ -1,4 +1,4 @@
-package com.fmap.common.validate;
+package com.fmap.jjeobcommon.dto.validate;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -1,6 +1,6 @@
-package com.fmap.user.dto;
+package com.fmap.jjeobcommon.dto.user;
 
-import com.fmap.common.validate.ValidPassword;
+import com.fmap.jjeobcommon.dto.validate.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;

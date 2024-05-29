@@ -58,9 +58,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if (user == null) {
             log.debug("PrincipalOauth2UserService :: 미가입 사용자");
             user = User.builder()
+                    .userId(username)
                     .provider(provider)
                     .providerId(providerId)
-                    .nickname(username)
+                    .nickname(email)
                     .password(password)
                     .email(email)
                     .build();

@@ -1,6 +1,7 @@
 package com.fmap.user.service;
 
-import com.fmap.user.dto.UserReq;
+import com.fmap.jjeobcommon.dto.user.UserReq;
+import com.fmap.jjeobcommon.dto.user.UserRes;
 import com.fmap.user.entity.User;
 import com.fmap.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -30,14 +31,24 @@ public class UserServiceImpl implements UserService {
      * user 등록
      * @param userReq
      */
-    public User join(UserReq userReq) {
+    public UserRes join(UserReq userReq) {
 
-        String password = userReq.getPassword();
-        // 비밀번호
+        // todo UserReq -> UserEntity
+        User joinUser = User.builder()
+                .email(userReq.getEmail())
+                .password(userReq.getPassword())
+                .nickname(userReq.getNickname())
+                .build();
 
-        User joinUser = userReq.toEntity();
         User savedUser = userRepository.save(joinUser);
 
-        return savedUser;
+        // todo UserEntity -> UserRes
+
+        UserRes savedUserRes = UserRes.builder()
+                .nickName(savedUser.getNickname())
+                .email(savedUser.getEmail())
+                .build();
+
+        return savedUserRes;
     }
 }

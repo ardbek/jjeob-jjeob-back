@@ -32,6 +32,7 @@ public class User extends BaseEntity {
     )
     @Column(name = "USER_NO")
     private Long userNo;
+    @Column private String userId;
     @Column private String email;
     @Column private String nickname;
     @Column private String password;
@@ -45,7 +46,8 @@ public class User extends BaseEntity {
     private List<LikePost> likePosts;
 
     @Builder
-    public User(String email, String password, String nickname, String provider, String providerId) {
+    public User(String userId, String email, String password, String nickname, String provider, String providerId) {
+        this.userId = userId;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
