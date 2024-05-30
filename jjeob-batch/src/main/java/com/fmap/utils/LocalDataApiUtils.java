@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,7 +34,7 @@ public class LocalDataApiUtils {
     @Value("${LOCALDATA_API_KEY}")
     private String LOCALDATA_API_KEY;
     private final int PAGE_SIZE = 500;
-    private final String API_URL = "http://www.localdata.go.kr/platform/rest/TO0/openDataApi";
+    private final String BASE_API_URL = "http://www.localdata.go.kr/platform/rest/TO0/openDataApi";
 
     /**
      * Api 데이터 호출
@@ -172,37 +174,36 @@ public class LocalDataApiUtils {
      * @return
      */
     private String getApiURL(RestaurantReq apiReq) {
-        String url = API_URL + "?authKey=" + LOCALDATA_API_KEY;
 
-        url += "&resultType=json"; // 반환 타입 default : xml
-        url += "&opnSvcId=07_24_04_P";// 음식점 코드
-        url += "&pageSize=" + PAGE_SIZE;// 개발 : 최대 500건 / 운영 최대 10,000건
+        //파라미터 추가
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_API_URL)
+                .queryParam("authKey", LOCALDATA_API_KEY)
+                .queryParam("resultType", "json") // 반환 타입 default : xml
+                .queryParam("opnSvcId", SERVICE_CODE) // 음식점 코드
+                .queryParam("pageSize", PAGE_SIZE);  // 개발 : 최대 500건, 운영 최대 : 10,000건
 
         if (apiReq.getLocalCode() != null) {
-            url += "&localCode=" + apiReq.getLocalCode();
-        }
-        // bgnYmd, endYmd = YYYYMMDD
-        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
-            url += "&bgnYmd=" + apiReq.getBgnYmd() + "&endYmd=" + apiReq.getEndYmd();
-        }
-        url += "&bgnYmd=" + "20240323" + "&endYmd=" + "20240325";
-        if (apiReq.getState() != null) {
-            url += "&state=" + apiReq.getState();
-        }
-        if (apiReq.getState() != null) {
-            // 데이터 갱신일자 시작일
-            url += "&lastModTsBgn=" + apiReq.getLastModTsBgn();
-        }
-        if (apiReq.getState() != null) {
-            // 데이터 갱신일자 종료일
-            url += "&lastModTsEnd=" + apiReq.getLastModTsBgn();
+            builder.queryParam("localCode", apiReq.getLocalCode());
         }
 
-        return url;
+        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
+            builder.queryParam("bgnYmd", apiReq.getBgnYmd())
+                    .queryParam("endYmd", apiReq.getEndYmd());
+        }
+
+        if (apiReq.getState() != null) {
+            builder.queryParam("state", apiReq.getState())
+                    .queryParam("lastModTsBgn", apiReq.getLastModTsBgn()) // 데이터 갱신일자 시작일
+                    .queryParam("lastModTsEnd", apiReq.getLastModTsEnd()); // 데이터 갱신일자 종료일
+        }
+
+        UriComponents uriComponents = builder.build().encode();
+
+        return uriComponents.toUriString();
     }
 
     private String getApiURL() {
-        String url = API_URL + "?authKey=" + LOCALDATA_API_KEY;
+        String url = BASE_API_URL + "?authKey=" + LOCALDATA_API_KEY;
 
         url += "&resultType=json"; // 반환 타입 default : xml
         url += "&opnSvcId=" + SERVICE_CODE;// 음식점 코드
@@ -220,7 +221,7 @@ public class LocalDataApiUtils {
         url += "&lastModTsBgn=" + twoDaysAgoDate;
         url += "&lastModTsEnd=" + today;
 
-        // TODO 나중에 현재 날짜로
+        // TODO 현재 날짜로 변경
 //        if (apiReq.getBgnYmd() != null && apiReq.getEndYmd() != null) {
 //            url += "&bgnYmd=" + apiReq.getBgnYmd() + "&endYmd=" + apiReq.getEndYmd();
 //        }
