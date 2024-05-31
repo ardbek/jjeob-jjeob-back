@@ -92,7 +92,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity getUserById(@PathVariable Long id) {
+    public ResponseEntity<ResponseData> getUserById(@PathVariable Long id) {
 
         HttpStatus httpStatus = HttpStatus.OK;
         ResponseData responseData = new ResponseData();
@@ -110,6 +110,14 @@ public class UserController {
         return new ResponseEntity(responseData, new HttpHeaders(), httpStatus);
 
     }
+    
+    // todo 인증번호, 만료 기간 -> redis
+    @GetMapping("/sendMail")
+    public ResponseEntity<ResponseData> sendMail() {
+
+        return new ResponseEntity<>(null,null,null);
+    }
+
 
 
 }
