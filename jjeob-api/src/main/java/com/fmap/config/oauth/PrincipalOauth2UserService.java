@@ -1,11 +1,13 @@
 package com.fmap.config.oauth;
 
 import com.fmap.config.auth.PrincipalDetails;
-import com.fmap.config.auth.provider.*;
+import com.fmap.config.auth.provider.GoogleUserInfo;
+import com.fmap.config.auth.provider.KakaoUserInfo;
+import com.fmap.config.auth.provider.NaverUserInfo;
+import com.fmap.config.auth.provider.OAuth2UserInfo;
 import com.fmap.user.entity.User;
 import com.fmap.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -13,6 +15,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -54,21 +57,21 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String password = "tempPassword";
         String email = oAuth2UserInfo.getEmail();
 
-        User user = userRepository.findByUserId(username);
-        if (user == null) {
+        Optional<User> userOptional = userRepository.findByUserId(username);
+        if (!userOptional.isPresent()) {
             log.debug("PrincipalOauth2UserService :: 미가입 사용자");
-            user = User.builder()
+            User savedUser = User.builder()
                     .userId(username)
                     .provider(provider)
                     .providerId(providerId)
-                    .nickname(email)
+                    .nickname(email) // 이 부분은 닉네임이 아닌 username이 들어가야 하는 것이 일반적 확인 필요
                     .password(password)
                     .email(email)
                     .build();
-            userRepository.save(user);
+            userRepository.save(savedUser); // User 타입의 객체를 저장
         }
 
-        return new PrincipalDetails(user, oAuth2User.getAttributes());
+        return new PrincipalDetails(userOptional, oAuth2User.getAttributes());
 
     }
 }

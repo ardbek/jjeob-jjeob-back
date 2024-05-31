@@ -7,19 +7,20 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-    private User user;
+    private Optional<User> user;
     private Map<String, Object> attributes;
     
     // 일반로그인
-    public PrincipalDetails(User user) {
+    public PrincipalDetails(Optional<User> user) {
         this.user = user;
     }
 
     // OAuth2 로그인
-    public PrincipalDetails(User user, Map<String, Object> attributes) {
+    public PrincipalDetails(Optional<User> user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
     }
@@ -38,12 +39,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.get().getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getNickname();
+        return user.get().getNickname();
     }
 
     @Override
