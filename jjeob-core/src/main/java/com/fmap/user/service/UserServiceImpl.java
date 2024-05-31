@@ -4,10 +4,12 @@ import com.fmap.jjeobcommon.dto.user.UserReq;
 import com.fmap.jjeobcommon.dto.user.UserRes;
 import com.fmap.user.entity.User;
 import com.fmap.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -28,12 +30,36 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Email 중복 검사
+     * @param email
+     * @return
+     */
+    @Override
+    public boolean checkEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.isPresent();
+    }
+
+    /**
      * user 등록
      * @param userReq
      */
     public UserRes join(UserReq userReq) {
 
-        // todo UserReq -> UserEntity
+        // email, nickname 중복 검사
+        Optional<User> existEmail = userRepository.findByEmail(userReq.getEmail());
+        Optional<User> existNickname = userRepository.findByNickname(userReq.getNickname());
+
+        if (existEmail.isPresent()) {
+            log.debug("UserServiceImpl - join :: duplicate email");
+            return null;
+        }
+        if (existNickname.isPresent()) {
+            log.debug("UserServiceImpl - join :: duplicate nickname");
+            return null;
+        }
+        
+        // User 객체 생성
         User joinUser = User.builder()
                 .email(userReq.getEmail())
                 .password(userReq.getPassword())
@@ -41,8 +67,6 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         User savedUser = userRepository.save(joinUser);
-
-        // todo UserEntity -> UserRes
 
         UserRes savedUserRes = UserRes.builder()
                 .nickName(savedUser.getNickname())

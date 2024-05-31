@@ -12,6 +12,7 @@ public interface UserService {
 
     // 아이디로 유저 검색
     Optional<User> findById(Long id);
-
-
+    
+    // 이메일 중복검사
+    boolean checkEmail(String email);
 }

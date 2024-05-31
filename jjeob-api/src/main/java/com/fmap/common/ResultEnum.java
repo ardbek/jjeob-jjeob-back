@@ -3,7 +3,7 @@ package com.fmap.common;
 import lombok.Getter;
 
 @Getter
-public enum ResponseType {
+public enum ResultEnum {
     SUCCESS("200","SUCCESS"),
     FAIL("400", "잘못된 접근"),
     ERROR("500", "ERROR"),
@@ -15,7 +15,7 @@ public enum ResponseType {
     private final String resultCode;
     private final String resultMessage;
 
-    ResponseType(String code, String message) {
+    ResultEnum(String code, String message) {
         this.resultCode = code;
         this.resultMessage = message;
     }

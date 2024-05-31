@@ -1,17 +1,23 @@
 package com.fmap.user.controller;
 
-import com.fmap.common.ApiResponse;
+import com.fmap.common.ResponseData;
 import com.fmap.jjeobcommon.dto.user.UserReq;
 import com.fmap.jjeobcommon.dto.user.UserRes;
 import com.fmap.user.entity.User;
 import com.fmap.user.service.UserServiceImpl;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -29,19 +35,53 @@ public class UserController {
      * @return
      */
     @PostMapping
-    public ResponseEntity join(@Valid UserReq userReq) {
+    public ResponseEntity<ResponseData> join(@Valid @RequestBody UserReq userReq) {
 
         // 비밀번호 암호화
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userReq.setPassword(passwordEncoder.encode(userReq.getPassword()));
 
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        ResponseData responseData = new ResponseData();
+
         UserRes savedUser = userServiceImpl.join(userReq);
 
         if (savedUser == null) {
-            return ResponseEntity.ok(ApiResponse.failure());
+            responseData.setResultMessage("이메일 또는 닉네임 중복");
         } else {
-            return ResponseEntity.ok(ApiResponse.success("가입 성공!"));
+            httpStatus = HttpStatus.OK;
+            responseData.setSuccess();
+            responseData.setData(savedUser);
         }
+
+        return new ResponseEntity<>(responseData, new HttpHeaders(), httpStatus);
+    }
+
+    /**
+     * 이메일 중복 검사
+     *
+     * @param email
+     * @return
+     */
+    @PostMapping("/checkEmail")
+    public ResponseEntity<ResponseData> checkEmail(@Valid @RequestParam String email) {
+
+        HttpStatus httpStatus = HttpStatus.OK;
+        ResponseData responseData = new ResponseData();
+
+        boolean isExistEmail = userServiceImpl.checkEmail(email);
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("isExistEmail", isExistEmail);
+
+        responseData.setSuccess();
+        responseData.setData(resultMap);
+
+        if (isExistEmail) {
+            log.debug("중복");
+        }
+
+        return new ResponseEntity<>(responseData, new HttpHeaders(), httpStatus);
 
     }
 
@@ -54,10 +94,21 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity getUserById(@PathVariable Long id) {
 
+        HttpStatus httpStatus = HttpStatus.OK;
+        ResponseData responseData = new ResponseData();
+
         Optional<User> findUser = userServiceImpl.findById(id);
 
-        return findUser.map(user -> ResponseEntity.ok(ApiResponse.success(user)))
-                .orElseGet(() -> ResponseEntity.ok(ApiResponse.success()));
+        if (findUser.isPresent()) {
+            responseData.setSuccess();
+            responseData.setData(findUser.get());
+        } else {
+            responseData.setError("400", "사용자가 존재하지 않습니다.");
+            httpStatus = HttpStatus.NOT_FOUND;
+        }
+
+        return new ResponseEntity(responseData, new HttpHeaders(), httpStatus);
+
     }
 
 
