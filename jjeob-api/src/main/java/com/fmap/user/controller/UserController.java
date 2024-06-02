@@ -85,6 +85,23 @@ public class UserController {
 
     }
 
+    @PostMapping("/checkNickname")
+    public ResponseEntity<ResponseData> checkNickname(@Valid @RequestParam String nickname) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        ResponseData responseData = new ResponseData();
+
+        boolean isExistNickname = userServiceImpl.checkNickname(nickname);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("isExistNickname", isExistNickname);
+        responseData.setSuccess();
+        responseData.setData(resultMap);
+        if (isExistNickname) {
+            log.debug("닉네임 중복");
+        }
+
+        return new ResponseEntity<>(responseData, new HttpHeaders(), httpStatus);
+    }
+
     /**
      * 아이디로 user 검색
      *

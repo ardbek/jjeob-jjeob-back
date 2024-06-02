@@ -41,6 +41,17 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 닉네임 중복 검사
+     * @param nickname
+     * @return
+     */
+    @Override
+    public boolean checkNickname(String nickname) {
+        Optional<User> user = userRepository.findByNickname(nickname);
+        return user.isPresent();
+    }
+
+    /**
      * user 등록
      * @param userReq
      */
