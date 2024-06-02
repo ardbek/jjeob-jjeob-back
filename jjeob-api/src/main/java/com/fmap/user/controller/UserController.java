@@ -6,6 +6,7 @@ import com.fmap.jjeobcommon.dto.user.UserRes;
 import com.fmap.user.entity.User;
 import com.fmap.user.service.UserServiceImpl;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -64,7 +65,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/checkEmail")
-    public ResponseEntity<ResponseData> checkEmail(@Valid @RequestParam String email) {
+    public ResponseEntity<ResponseData> checkEmail(@Valid @RequestParam @NotNull String email) {
 
         HttpStatus httpStatus = HttpStatus.OK;
         ResponseData responseData = new ResponseData();
@@ -85,8 +86,13 @@ public class UserController {
 
     }
 
+    /**
+     * 닉네임 중복 검사
+     * @param nickname
+     * @return
+     */
     @PostMapping("/checkNickname")
-    public ResponseEntity<ResponseData> checkNickname(@Valid @RequestParam String nickname) {
+    public ResponseEntity<ResponseData> checkNickname(@Valid @RequestParam @NotNull String nickname) {
         HttpStatus httpStatus = HttpStatus.OK;
         ResponseData responseData = new ResponseData();
 
