@@ -57,19 +57,6 @@ public class UserServiceImpl implements UserService {
      */
     public UserRes join(UserReq userReq) {
 
-        // email, nickname 중복 검사
-        Optional<User> existEmail = userRepository.findByEmail(userReq.getEmail());
-        Optional<User> existNickname = userRepository.findByNickname(userReq.getNickname());
-
-        if (existEmail.isPresent()) {
-            log.debug("UserServiceImpl - join :: duplicate email");
-            return null;
-        }
-        if (existNickname.isPresent()) {
-            log.debug("UserServiceImpl - join :: duplicate nickname");
-            return null;
-        }
-        
         // User 객체 생성
         User joinUser = User.builder()
                 .email(userReq.getEmail())

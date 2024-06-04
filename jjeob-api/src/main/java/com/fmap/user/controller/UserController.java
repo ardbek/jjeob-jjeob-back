@@ -48,7 +48,7 @@ public class UserController {
         UserRes savedUser = userServiceImpl.join(userReq);
 
         if (savedUser == null) {
-            responseData.setResultMessage("이메일 또는 닉네임 중복");
+            responseData.setError();
         } else {
             httpStatus = HttpStatus.OK;
             responseData.setSuccess();
