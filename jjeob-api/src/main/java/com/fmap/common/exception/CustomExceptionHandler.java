@@ -1,6 +1,7 @@
 package com.fmap.common.exception;
 
 import com.fmap.common.ResponseData;
+import com.fmap.common.ResultEnum;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -28,7 +29,9 @@ public class CustomExceptionHandler {
         }
 
         ResponseData responseData = new ResponseData();
-        responseData.setError("VALIDATION_ERROR", errors.toString());
+        responseData.setResultCode(ResultEnum.FAIL.getResultCode());
+        responseData.setResultMessage("VALIDATION_ERROR");
+        responseData.setData(errors);
 
         return new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
     }
