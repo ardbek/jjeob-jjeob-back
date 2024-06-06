@@ -1,8 +1,10 @@
 package com.fmap.user.controller;
 
 import com.fmap.common.ResponseData;
+import com.fmap.email.service.EmailVerificationService;
 import com.fmap.jjeobcommon.dto.user.UserReq;
 import com.fmap.jjeobcommon.dto.user.UserRes;
+import com.fmap.jjeobcommon.util.VerificationCodeUtil;
 import com.fmap.user.entity.User;
 import com.fmap.user.service.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -25,8 +27,11 @@ public class UserController {
 
     private final UserServiceImpl userServiceImpl;
 
-    public UserController(UserServiceImpl userServiceImpl) {
+    private final EmailVerificationService emailVerificationService;
+
+    public UserController(UserServiceImpl userServiceImpl, EmailVerificationService emailVerificationService) {
         this.userServiceImpl = userServiceImpl;
+        this.emailVerificationService = emailVerificationService;
     }
 
     /**
@@ -133,12 +138,27 @@ public class UserController {
         return new ResponseEntity(responseData, new HttpHeaders(), httpStatus);
 
     }
-    
-    // todo 인증번호, 만료 기간 -> redis
-    @GetMapping("/sendMail")
-    public ResponseEntity<ResponseData> sendMail() {
 
-        return new ResponseEntity<>(null,null,null);
+    /**
+     * 인증번호 메일 발송 (10분)
+     * @param email
+     * @return
+     */
+    @GetMapping("/sendMail")
+    public ResponseEntity<ResponseData> sendMail(@Valid @RequestParam @NotNull String email) {
+
+        HttpStatus httpStatus = HttpStatus.OK;
+        ResponseData responseData = new ResponseData();
+
+        // 인증번호 발급 , redis 저장
+        String verificationCode = VerificationCodeUtil.generateVerificationCode(6);
+        emailVerificationService.saveVerificationCode(email, verificationCode);
+
+        log.debug("email : {}", email);
+        log.debug("verificationCode : {} ", verificationCode);
+
+
+        return new ResponseEntity<>(responseData,new HttpHeaders(),httpStatus);
     }
 
 
