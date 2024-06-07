@@ -151,12 +151,11 @@ public class UserController {
         ResponseData responseData = new ResponseData();
 
         // 인증번호 발급 , redis 저장
-        String verificationCode = VerificationCodeUtil.generateVerificationCode(6);
+        String verificationCode = VerificationCodeUtil.generateVerificationCode();
         emailVerificationService.saveVerificationCode(email, verificationCode);
 
         log.debug("email : {}", email);
         log.debug("verificationCode : {} ", verificationCode);
-
 
         return new ResponseEntity<>(responseData,new HttpHeaders(),httpStatus);
     }
